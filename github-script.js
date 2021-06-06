@@ -13,6 +13,8 @@ module.exports = ({ github, context }) => {
   const patt = new RegExp('```yml((.|\n)*?)```', 'g');
 
   let content = context.issue.body;
+  console.log(content);
+  
   m = patt.exec(content);
 
   if (m) {
