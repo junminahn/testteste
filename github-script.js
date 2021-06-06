@@ -3,10 +3,11 @@ const yaml = require('js-yaml');
 
 // This module runs in GitHub Action `github-script`
 // see https://github.com/actions/github-script#run-a-separate-file-with-an-async-function
-module.exports = ({ github, context }) => {
-  console.log(Object.keys(context))
-  // const owner = context.repo.owner;
-  // const repo = context.repo.repo;
+module.exports = async ({ github, context }) => {
+  console.log(Object.keys(context));
+  const issue_number = context.payload.issue.number;
+  const owner = context.payload.repository.owner.login;
+  const repo = context.payload.repository.name;
 
   // console.log('github', JSON.stringify(github, null, 2));
   // console.log('content', JSON.stringify(context, null, 2));
@@ -25,18 +26,23 @@ module.exports = ({ github, context }) => {
     console.log(content);
     const doc = yaml.load(content);
 
-    github.issues.createComment({
-      issue_number: context.payload.issue.number,
-      owner: context.payload.repository.owner.login,
-      repo: context.payload.repository.name,
-      body:JSON.stringify(doc) ,
+    const comments = await github.issues.listComments({
+      issue_number,
+      owner,
+      repoe,
     });
 
+    console.log(comments);
+
+    await github.issues.createComment({
+      issue_number,
+      owner,
+      repoe,
+      body: JSON.stringify(doc),
+    });
   } catch (e) {
     console.log(e);
   }
-
-
 
   // await github.issues.create({
   //   owner,
