@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/junminahn/testteste/issues"
   },
-  "homepage": "https://github.com/junminahn/testteste#readme"
+  "homepage": "https://github.com/junminahn/testteste#readme",
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
 }
