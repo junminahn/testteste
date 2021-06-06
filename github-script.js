@@ -7,8 +7,8 @@ module.exports = ({ github, context }) => {
   const owner = context.repo.owner;
   const repo = context.repo.repo;
 
-  console.log('github', JSON.stringify(github, null, 2));
-  console.log('content', JSON.stringify(context, null, 2));
+  // console.log('github', JSON.stringify(github, null, 2));
+  // console.log('content', JSON.stringify(context, null, 2));
 
   const patt = new RegExp('```yml((.|\n)*?)```', 'g');
 
@@ -20,6 +20,7 @@ module.exports = ({ github, context }) => {
   }
 
   try {
+    console.log(content);
     const doc = yaml.load(content);
     console.log(JSON.stringify(doc));
   } catch (e) {
