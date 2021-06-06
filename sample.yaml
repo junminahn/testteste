@@ -1,0 +1,13 @@
+```yml
+realmName: ospp
+clientName: test-client
+environments:
+    - dev:
+        redirectUrls:
+            - https://example.com
+            - https://example.com2
+    - test:
+        redirectUrls:
+            - https://testexample.com
+            - https://testexample.com2
+```

@@ -1,0 +1,16 @@
+name: Issue
+
+on:
+  issues:
+    types: [opened, edited, labeled]
+
+jobs:
+  iss:  
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: View issue information
+        run: |
+          echo "Issue title: ${{ github.event.issue.title }}"
+          echo "Issue body: ${{ github.event.issue.body }}"
