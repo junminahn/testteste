@@ -1,0 +1,19 @@
+{
+  "name": "testteste",
+  "version": "1.0.0",
+  "description": "",
+  "main": "github-script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/junminahn/testteste.git"
+  },
+  "author": "Junmin Ahn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/junminahn/testteste/issues"
+  },
+  "homepage": "https://github.com/junminahn/testteste#readme"
+}
