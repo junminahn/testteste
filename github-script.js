@@ -1,4 +1,5 @@
 const fs = require('fs');
+const yaml = require('js-yaml');
 
 // This module runs in GitHub Action `github-script`
 // see https://github.com/actions/github-script#run-a-separate-file-with-an-async-function
@@ -8,6 +9,22 @@ module.exports = ({ github, context }) => {
 
   console.log('github', JSON.stringify(github, null, 2));
   console.log('content', JSON.stringify(context, null, 2));
+
+  const patt = new RegExp('```yml((.|\n)*?)```', 'g');
+
+  let content = context.issue.body;
+  m = patt.exec(content);
+
+  if (m) {
+    content = m[1];
+  }
+
+  try {
+    const doc = yaml.load(content);
+    console.log(JSON.stringify(doc));
+  } catch (e) {
+    console.log(e);
+  }
 
   // await github.issues.create({
   //   owner,
