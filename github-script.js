@@ -12,9 +12,9 @@ module.exports = ({ github, context }) => {
 
   const patt = new RegExp('```yml((.|\n)*?)```', 'g');
 
-  let content = context.issue.body;
+  let content = context.payload.issue.body;
   console.log(content);
-  
+
   m = patt.exec(content);
 
   if (m) {
