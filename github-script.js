@@ -10,7 +10,7 @@ module.exports = ({ github, context }) => {
   // console.log('github', JSON.stringify(github, null, 2));
   // console.log('content', JSON.stringify(context, null, 2));
 
-  const patt = new RegExp('```yml((.|\n)*?)```', 'g');
+  const patt = new RegExp('```yml((.|\n|\r\n)*?)```', 'g');
 
   let content = context.payload.issue.body;
   console.log(content);
