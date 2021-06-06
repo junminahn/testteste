@@ -10,7 +10,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: View issue information
-        run: |
-          echo "Issue title: ${{ github.event.issue.title }}"
-          echo "Issue body: ${{ toJson(github.event.issue.body) }}"
+      - uses: actions/github-script@v4
+        with:
+          script: |
+            const script = require('./github-script.js')
+            console.log(script({github, context}))
