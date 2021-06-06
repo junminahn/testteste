@@ -4,14 +4,14 @@ const yaml = require('js-yaml');
 // This module runs in GitHub Action `github-script`
 // see https://github.com/actions/github-script#run-a-separate-file-with-an-async-function
 module.exports = ({ github, context }) => {
-  const owner = context.repo.owner;
-  const repo = context.repo.repo;
+  console.log(Object.keys(context))
+  // const owner = context.repo.owner;
+  // const repo = context.repo.repo;
 
   // console.log('github', JSON.stringify(github, null, 2));
   // console.log('content', JSON.stringify(context, null, 2));
 
   const patt = new RegExp('```yml((.|\n|\r\n)*?)```', 'g');
-
   let content = context.payload.issue.body;
   console.log(content);
 
@@ -24,10 +24,19 @@ module.exports = ({ github, context }) => {
   try {
     console.log(content);
     const doc = yaml.load(content);
-    console.log(JSON.stringify(doc));
+
+    github.issues.createComment({
+      issue_number: context.payload.issue.number,
+      owner: context.payload.repository.owner.login,
+      repo: context.payload.repository.name,
+      body:JSON.stringify(doc) ,
+    });
+
   } catch (e) {
     console.log(e);
   }
+
+
 
   // await github.issues.create({
   //   owner,
