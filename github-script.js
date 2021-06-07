@@ -62,9 +62,9 @@ module.exports = async ({ github, context }) => {
       ref: `heads/${payload.repository.default_branch}`,
     });
 
-    const prBranchName = 'testbranch222222222222';
+    const prBranchName = 'testbranch222222222222222';
 
-    let prBranch = await github.git.getRef({
+    let { data: prBranch } = await github.git.getRef({
       owner,
       repo,
       ref: `heads/${prBranchName}`,
@@ -72,7 +72,7 @@ module.exports = async ({ github, context }) => {
 
     console.log(prBranch);
 
-    if (prBranch) {
+    if (!prBranch) {
       await github.git.createRef({
         owner,
         repo,
