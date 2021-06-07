@@ -22,6 +22,19 @@ module.exports = async ({ github, context }) => {
     content = m[1];
   }
 
+  const deleteComment = async (comment) => {
+    if (
+      comment.user.login === 'github-actions[bot]' &&
+      comment.user.type === 'Bot'
+    ) {
+      await github.issues.deleteComment({
+        owner,
+        repo,
+        comment_id: comment.id,
+      });
+    }
+  };
+
   try {
     console.log(content);
     const doc = yaml.load(content);
@@ -32,7 +45,7 @@ module.exports = async ({ github, context }) => {
       repo,
     });
 
-    comments.map((v) => console.log(v.user));
+    await Promise.all(comments.map(deleteComment));
 
     await github.issues.createComment({
       issue_number,
