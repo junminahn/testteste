@@ -75,7 +75,7 @@ module.exports = async ({ github, context }) => {
     await github.repos.createOrUpdateFileContents({
       owner,
       repo,
-      path: 'reverse.js',
+      path: './testss/reverse.js',
       sha: mainref.data.object.sha,
       message: 'test new branch',
       content: fs.readFileSync('reverse.js', { encoding: 'base64' }),
