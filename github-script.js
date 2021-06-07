@@ -26,13 +26,13 @@ module.exports = async ({ github, context }) => {
     console.log(content);
     const doc = yaml.load(content);
 
-    const comments = await github.issues.listComments({
+    const { data: comments } = await github.issues.listComments({
       issue_number,
       owner,
       repo,
     });
 
-    console.log(comments);
+    comments.map((v) => console.log(v.user));
 
     await github.issues.createComment({
       issue_number,
