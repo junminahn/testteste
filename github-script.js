@@ -72,14 +72,14 @@ module.exports = async ({ github, context }) => {
     // const aParams = fileSHA !== '' ? { owner, repo, sha: fileSHA } : params;
 
     // // Add the file to the new branch
-    await github.repos.createOrUpdateFile({
+    await github.repos.createOrUpdateFileContents({
       owner,
       repo,
-      sha: mainref.data.object.sha,
-      branch: 'newbranch',
-      content: fs.readFileSync('reverse.js', { encoding: 'base64' }),
-      message: 'test new branch',
       path: 'reverse.js',
+      sha: mainref.data.object.sha,
+      message: 'test new branch',
+      content: fs.readFileSync('reverse.js', { encoding: 'base64' }),
+      branch: 'newbranch',
     });
 
     // Create a PR to merge the licence ref into master
