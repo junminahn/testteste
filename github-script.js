@@ -135,15 +135,20 @@ module.exports = async ({ github, context }) => {
     console.log(out);
 
     // Create a PR to merge the licence ref into master
-    await github.pulls.create({
-      owner,
-      repo,
-      base: payload.repository.default_branch,
-      head: prBranchName,
-      title: 'test title',
-      body: 'test body',
-      maintainer_can_modify: true,
-    });
+    await github.pulls
+      .create({
+        owner,
+        repo,
+        base: payload.repository.default_branch,
+        head: prBranchName,
+        title: 'test title',
+        body: 'test body',
+        maintainer_can_modify: true,
+      })
+      .then(
+        (res) => res.data,
+        (err) => null
+      );
   } catch (e) {
     console.log(e);
   }
