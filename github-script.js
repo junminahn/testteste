@@ -61,7 +61,7 @@ module.exports = async ({ github, context }) => {
       ref: `heads/${payload.repository.default_branch}`,
     });
 
-    const prbranch = 'testbranch';
+    const prbranch = 'testbranch222';
     await github.git.createRef({
       owner,
       repo,
