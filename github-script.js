@@ -64,11 +64,16 @@ module.exports = async ({ github, context }) => {
 
     const prBranchName = 'testbranch222222222222222';
 
-    let { data: prBranch } = await github.git.getRef({
-      owner,
-      repo,
-      ref: `heads/${prBranchName}`,
-    });
+    let prBranch = await github.git
+      .getRef({
+        owner,
+        repo,
+        ref: `heads/${prBranchName}`,
+      })
+      .then(
+        (res) => res.data,
+        (err) => null
+      );
 
     console.log(prBranch);
 
