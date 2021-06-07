@@ -1,5 +1,5 @@
 const fs = require('fs');
-const execShPromise = require('exec-sh').promise;
+const execa = require('execa');
 const yaml = require('js-yaml');
 
 // This module runs in GitHub Action `github-script`
@@ -131,7 +131,7 @@ module.exports = async ({ github, context }) => {
       content: fs.readFileSync('reverse.js', { encoding: 'base64' }),
     });
 
-    const out = await execShPromise('pre-commit run --all-files', true);
+    const out = await execa('pre-commit', ['run', '--all-files']);
     console.log(out);
 
     // Create a PR to merge the licence ref into master
