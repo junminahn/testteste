@@ -61,7 +61,7 @@ module.exports = async ({ github, context }) => {
       ref: `heads/${payload.repository.default_branch}`,
     });
 
-    const prbranch = 'testbranch222';
+    const prbranch = 'testbranch222222';
     await github.git.createRef({
       owner,
       repo,
@@ -79,7 +79,7 @@ module.exports = async ({ github, context }) => {
       sha: mainref.data.object.sha,
       message: 'test new branch',
       content: fs.readFileSync('reverse.js', { encoding: 'base64' }),
-      branch: 'newbranch',
+      branch: prbranch,
     });
 
     // Create a PR to merge the licence ref into master
