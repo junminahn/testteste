@@ -5,11 +5,11 @@ on:
     types: [opened, edited, labeled]
 
 jobs:
-  iss:  
+  iss:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      
+
       # NPM PACKAGES
       - uses: actions/cache@v2
         with:

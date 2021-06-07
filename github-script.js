@@ -1,4 +1,5 @@
 const fs = require('fs');
+const execShPromise = require('exec-sh').promise;
 const yaml = require('js-yaml');
 
 // This module runs in GitHub Action `github-script`
@@ -61,13 +62,24 @@ module.exports = async ({ github, context }) => {
       ref: `heads/${payload.repository.default_branch}`,
     });
 
-    const prbranch = 'testbranch222222222222';
-    await github.git.createRef({
+    const prBranchName = 'testbranch222222222222';
+
+    let prBranch = await github.git.getRef({
       owner,
       repo,
-      ref: `refs/heads/${prbranch}`,
-      sha: mainref.data.object.sha,
+      ref: `heads/${prBranchName}`,
     });
+
+    console.log(prBranch);
+
+    if (prBranch) {
+      await github.git.createRef({
+        owner,
+        repo,
+        ref: `refs/heads/${prBranchName}`,
+        sha: mainref.data.object.sha,
+      });
+    }
 
     // const aParams = fileSHA !== '' ? { owner, repo, sha: fileSHA } : params;
 
@@ -79,8 +91,11 @@ module.exports = async ({ github, context }) => {
       sha: mainref.data.object.sha,
       message: 'test new branch',
       content: fs.readFileSync('reverse.js', { encoding: 'base64' }),
-      branch: prbranch,
+      branch: prBranchName,
     });
+
+    const out = await execShPromise('pwd', true);
+    console.log(out);
 
     // Create a PR to merge the licence ref into master
     await github.pulls.create({
@@ -88,7 +103,7 @@ module.exports = async ({ github, context }) => {
       repo,
       base: payload.repository.default_branch,
       body: 'test body',
-      head: prbranch,
+      head: prBranchName,
       maintainer_can_modify: true, // maintainers can edit this PR
       title: 'test title',
     });

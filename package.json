@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/junminahn/testteste#readme",
   "dependencies": {
+    "exec-sh": "^0.4.0",
     "js-yaml": "^4.1.0"
   }
 }
