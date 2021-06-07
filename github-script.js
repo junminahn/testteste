@@ -78,7 +78,7 @@ module.exports = async ({ github, context }) => {
 
     const prBranchName = 'testbranch222222222222222';
 
-    let prBranch = await github.git
+    let prRef = await github.git
       .getRef({
         owner,
         repo,
@@ -89,9 +89,9 @@ module.exports = async ({ github, context }) => {
         (err) => null
       );
 
-    console.log(prBranch);
+    console.log(prRef);
 
-    if (!prBranch) {
+    if (!prRef) {
       await github.git.createRef({
         owner,
         repo,
@@ -103,6 +103,7 @@ module.exports = async ({ github, context }) => {
     await github.repos.createOrUpdateFileContents({
       owner,
       repo,
+      sha: prRef.object.sha,
       branch: prBranchName,
       path: 'testss/reverse.js',
       message: 'test new branch',
