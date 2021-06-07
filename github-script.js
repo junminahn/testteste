@@ -61,7 +61,7 @@ module.exports = async ({ github, context }) => {
       ref: `heads/${payload.repository.default_branch}`,
     });
 
-    const prbranch = 'testbranch222222222';
+    const prbranch = 'testbranch222222222222';
     await github.git.createRef({
       owner,
       repo,
@@ -75,7 +75,7 @@ module.exports = async ({ github, context }) => {
     await github.repos.createOrUpdateFileContents({
       owner,
       repo,
-      path: './testss/reverse.js',
+      path: 'testss/reverse.js',
       sha: mainref.data.object.sha,
       message: 'test new branch',
       content: fs.readFileSync('reverse.js', { encoding: 'base64' }),
