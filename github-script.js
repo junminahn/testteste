@@ -41,11 +41,16 @@ module.exports = async ({ github, context }) => {
     console.log(content);
     const doc = yaml.load(content);
 
-    const { data: comments } = await github.issues.listComments({
-      issue_number,
-      owner,
-      repo,
-    });
+    const comments = await github.issues
+      .listComments({
+        issue_number,
+        owner,
+        repo,
+      })
+      .then(
+        (res) => res.data,
+        (err) => null
+      );
 
     await Promise.all(comments.map(deleteComment));
 
@@ -56,11 +61,20 @@ module.exports = async ({ github, context }) => {
       body: JSON.stringify(doc),
     });
 
-    const mainref = await github.git.getRef({
-      owner,
-      repo,
-      ref: `heads/${payload.repository.default_branch}`,
-    });
+    const mainRef = await github.git
+      .getRef({
+        owner,
+        repo,
+        ref: `heads/${payload.repository.default_branch}`,
+      })
+      .then(
+        (res) => res.data,
+        (err) => null
+      );
+
+    if (!mainRef) {
+      console.error('no main branch');
+    }
 
     const prBranchName = 'testbranch222222222222222';
 
@@ -82,21 +96,17 @@ module.exports = async ({ github, context }) => {
         owner,
         repo,
         ref: `refs/heads/${prBranchName}`,
-        sha: mainref.data.object.sha,
+        sha: mainRef.object.sha,
       });
     }
 
-    // const aParams = fileSHA !== '' ? { owner, repo, sha: fileSHA } : params;
-
-    // // Add the file to the new branch
     await github.repos.createOrUpdateFileContents({
       owner,
       repo,
+      branch: prBranchName,
       path: 'testss/reverse.js',
-      sha: mainref.data.object.sha,
       message: 'test new branch',
       content: fs.readFileSync('reverse.js', { encoding: 'base64' }),
-      branch: prBranchName,
     });
 
     const out = await execShPromise('pwd', true);
@@ -107,10 +117,10 @@ module.exports = async ({ github, context }) => {
       owner,
       repo,
       base: payload.repository.default_branch,
-      body: 'test body',
       head: prBranchName,
-      maintainer_can_modify: true, // maintainers can edit this PR
       title: 'test title',
+      body: 'test body',
+      maintainer_can_modify: true,
     });
   } catch (e) {
     console.log(e);
