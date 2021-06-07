@@ -21,6 +21,7 @@ jobs:
 
       - uses: actions/github-script@v4
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const script = require('./github-script.js')
             console.log(script({github, context}))
