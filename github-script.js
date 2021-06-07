@@ -2,22 +2,6 @@ const fs = require('fs');
 const execShPromise = require('exec-sh').promise;
 const yaml = require('js-yaml');
 
-const getSHA = async (owner, repo, ref, path) => {
-  const data = await github.repos
-    .getContent({
-      owner,
-      repo,
-      ref,
-      path,
-    })
-    .then(
-      (res) => res.data,
-      (err) => null
-    );
-
-  return data.sha;
-};
-
 // This module runs in GitHub Action `github-script`
 // see https://github.com/actions/github-script#run-a-separate-file-with-an-async-function
 module.exports = async ({ github, context }) => {
@@ -51,6 +35,22 @@ module.exports = async ({ github, context }) => {
         comment_id: comment.id,
       });
     }
+  };
+
+  const getSHA = async (ref, path) => {
+    const data = await github.repos
+      .getContent({
+        owner,
+        repo,
+        ref,
+        path,
+      })
+      .then(
+        (res) => res.data,
+        (err) => null
+      );
+
+    return data.sha;
   };
 
   try {
