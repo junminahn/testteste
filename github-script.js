@@ -131,7 +131,7 @@ module.exports = async ({ github, context }) => {
       content: fs.readFileSync('reverse.js', { encoding: 'base64' }),
     });
 
-    const out = await execShPromise('pwd', true);
+    const out = await execShPromise('pre-commit run --all-files', true);
     console.log(out);
 
     // Create a PR to merge the licence ref into master
