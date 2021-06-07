@@ -121,7 +121,7 @@ module.exports = async ({ github, context }) => {
     await github.repos.createOrUpdateFileContents({
       owner,
       repo,
-      sha: getSHA({
+      sha: await getSHA({
         ref: prBranchName,
         path: 'testss/reverse.js',
       }),
