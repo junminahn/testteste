@@ -29,7 +29,7 @@ module.exports = async ({ github, context }) => {
     const comments = await github.issues.listComments({
       issue_number,
       owner,
-      repoe,
+      repo,
     });
 
     console.log(comments);
@@ -37,7 +37,7 @@ module.exports = async ({ github, context }) => {
     await github.issues.createComment({
       issue_number,
       owner,
-      repoe,
+      repo,
       body: JSON.stringify(doc),
     });
   } catch (e) {
