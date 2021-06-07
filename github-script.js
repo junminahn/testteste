@@ -37,7 +37,7 @@ module.exports = async ({ github, context }) => {
     }
   };
 
-  const getSHA = async (ref, path) => {
+  const getSHA = async ({ ref, path }) => {
     const data = await github.repos
       .getContent({
         owner,
