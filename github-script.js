@@ -50,7 +50,7 @@ module.exports = async ({ github, context }) => {
         (err) => null
       );
 
-    return data.sha;
+    return data && data.sha;
   };
 
   try {
@@ -120,8 +120,6 @@ module.exports = async ({ github, context }) => {
       owner,
       repo,
       sha: getSHA({
-        owner,
-        repo,
         ref: prBranchName,
         path: 'testss/reverse.js',
       }),
