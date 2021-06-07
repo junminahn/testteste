@@ -50,6 +50,8 @@ module.exports = async ({ github, context }) => {
         (err) => null
       );
 
+    console.log('asdf', data);
+
     return data && data.sha;
   };
 
