@@ -55,14 +55,14 @@ module.exports = async ({ github, context }) => {
       body: JSON.stringify(doc),
     });
 
-    const mainref = await context.github.git.getRef({
+    const mainref = await github.git.getRef({
       owner,
       repo,
       ref: `heads/${payload.repository.default_branch}`,
     });
 
     const prbranch = 'testbranch';
-    await context.github.git.createRef({
+    await github.git.createRef({
       owner,
       repo,
       ref: `refs/heads/${prbranch}`,
@@ -83,7 +83,7 @@ module.exports = async ({ github, context }) => {
     });
 
     // Create a PR to merge the licence ref into master
-    await context.github.pulls.create({
+    await github.pulls.create({
       owner,
       repo,
       base: payload.repository.default_branch,
@@ -96,13 +96,13 @@ module.exports = async ({ github, context }) => {
     console.log(e);
   }
 
-  // const mainbr = await context.github.git.getRef({
+  // const mainbr = await github.git.getRef({
   //   ...params,
   //   ref: `heads/${payload.repository.default_branch}`,
   // });
 
   // // Create a branch to commit to commit the license file
-  // await context.github.git.createRef({
+  // await github.git.createRef({
   //   ...params,
   //   ref: `refs/heads/${srcBranchName}`,
   //   sha: mainbr.data.object.sha, // where we fork from
@@ -110,7 +110,7 @@ module.exports = async ({ github, context }) => {
 
   // If we don't have a main branch we won't have anywhere
   // to merge the PR.
-  // const mainbr = await context.github.git.getRef({
+  // const mainbr = await github.git.getRef({
   //   owner,
   //   repo,
   //   ref: `heads/${payload.repository.default_branch}`,
@@ -136,7 +136,7 @@ module.exports = async ({ github, context }) => {
   //   path: 'e2e-prep.js',
   // });
 
-  // await context.github.repos.createOrUpdateFile({
+  // await github.repos.createOrUpdateFile({
   //   ...aParams,
   //   branch: srcBranchName,
   //   content: Buffer.from(fileData).toString('base64'),
@@ -145,7 +145,7 @@ module.exports = async ({ github, context }) => {
   // });
 
   // // Create a PR to merge the licence ref into master
-  // await context.github.pulls.create({
+  // await github.pulls.create({
   //   ...params,
   //   base: payload.repository.default_branch,
   //   body: prBody,
