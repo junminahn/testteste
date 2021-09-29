@@ -14,5 +14,5 @@ try {
   const doc = yaml.load(content);
   console.log(JSON.stringify(doc));
 } catch (e) {
-  console.log(e);
+  console.log(e.reason);
 }

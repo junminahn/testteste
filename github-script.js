@@ -2,6 +2,15 @@ const fs = require('fs');
 const execa = require('execa');
 const yaml = require('js-yaml');
 
+const parseYaml = (content) => {
+  try {
+    const result = yaml.load(content);
+    return [result, null];
+  } catch (e) {
+    return [null, e.reason];
+  }
+};
+
 // This module runs in GitHub Action `github-script`
 // see https://github.com/actions/github-script#run-a-separate-file-with-an-async-function
 module.exports = async ({ github, context }) => {
@@ -24,60 +33,18 @@ module.exports = async ({ github, context }) => {
     content = m[1];
   }
 
-  const deleteComment = async (comment) => {
-    if (
-      comment.user.login === 'github-actions[bot]' &&
-      comment.user.type === 'Bot'
-    ) {
-      await github.issues.deleteComment({
-        owner,
-        repo,
-        comment_id: comment.id,
-      });
-    }
-  };
-
-  const getSHA = async ({ ref, path }) => {
-    const data = await github.repos
-      .getContent({
-        owner,
-        repo,
-        ref,
-        path,
-      })
-      .then(
-        (res) => res.data,
-        (err) => null
-      );
-
-    console.log('asdf', data);
-
-    return data && data.sha;
-  };
-
   try {
-    console.log(content);
-    const doc = yaml.load(content);
+    const [newclient, errmsg] = parseYaml(content);
 
-    const comments = await github.issues
-      .listComments({
-        issue_number,
-        owner,
-        repo,
-      })
-      .then(
-        (res) => res.data,
-        (err) => null
-      );
+    if (errmsg) {
+      await createComment(newclient);
+    }
+
+    const comments = await listComments();
 
     await Promise.all(comments.map(deleteComment));
 
-    await github.issues.createComment({
-      issue_number,
-      owner,
-      repo,
-      body: JSON.stringify(doc),
-    });
+    await createComment(newclient);
 
     const mainRef = await github.git
       .getRef({
@@ -145,12 +112,63 @@ module.exports = async ({ github, context }) => {
         body: 'test body',
         maintainer_can_modify: true,
       })
+      // Let's just ignore the error in case of duplicating pr
+      .catch(() => null);
+  } catch (e) {
+    console.log(e);
+  }
+
+  async function listComments() {
+    return await github.issues
+      .listComments({
+        issue_number,
+        owner,
+        repo,
+      })
       .then(
         (res) => res.data,
         (err) => null
       );
-  } catch (e) {
-    console.log(e);
+  }
+
+  async function createComment(comment) {
+    return await github.issues.createComment({
+      issue_number,
+      owner,
+      repo,
+      body: JSON.stringify(doc),
+    });
+  }
+
+  async function deleteComment(comment) {
+    if (
+      comment.user.login === 'github-actions[bot]' &&
+      comment.user.type === 'Bot'
+    ) {
+      await github.issues.deleteComment({
+        owner,
+        repo,
+        comment_id: comment.id,
+      });
+    }
+  }
+
+  async function getSHA({ ref, path }) {
+    const data = await github.repos
+      .getContent({
+        owner,
+        repo,
+        ref,
+        path,
+      })
+      .then(
+        (res) => res.data,
+        (err) => null
+      );
+
+    console.log('asdf', data);
+
+    return data && data.sha;
   }
 
   // const mainbr = await github.git.getRef({
