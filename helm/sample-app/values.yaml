@@ -1,0 +1,43 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/junminahn/testteste
+  tag: v0.0.2
+  pullPolicy: Always
+  # pullPolicy: IfNotPresent
+
+images:
+  pullSecrets:
+    - name: gh-registry-config
+  
+nameOverride: webapp
+fullnameOverride: webapp
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: false
+
+docker:
+  github:
+    enabled: true
+    name: gh-registry-config
+    registry: ghcr.io
+    username: 
+    password: 
+
+resources:
+  limits:
+    cpu: 0.5
+    memory: 512M
+  requests:
+    cpu: 0.25
+    memory: 256M
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "..fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "..name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    helm.sh/chart: {{ include "..chart" . }}
+  annotations:
+    template.openshift.io/expose-uri: http://{.spec.clusterIP}:{.spec.ports[?(.name=="{{ include "..fullname" . }}")].port}
+
+  # {{- with .Values.service.annotations }}
+  # annotations:
+  #   {{- toYaml . | nindent 4 }}
+  # {{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ include "..name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+
+# - apiVersion: v1
+#   kind: Service
+#   metadata:
+#     annotations:
+#       template.openshift.io/expose-uri: http://{.spec.clusterIP}:{.spec.ports[?(.name=="${METABASE_SERVICE_NAME}")].port}
+#     name: ${METABASE_SERVICE_NAME}
+#     labels:
+#       app: metabase
+#       service: ${METABASE_SERVICE_NAME}
+#   spec:
+#     ports:
+#     - name: ${METABASE_SERVICE_NAME}
+#       port: 3000
+#       protocol: TCP
+#       targetPort: 3000
+#     selector:
+#       app: metabase
+#       deploymentconfig: ${METABASE_SERVICE_NAME}
+#     sessionAffinity: None
+#     type: ClusterIP

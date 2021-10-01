@@ -76,3 +76,5 @@ override.tf.json
 terraform.rc
 
 node_modules
+
+*.secret.yaml

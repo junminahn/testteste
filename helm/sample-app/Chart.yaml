@@ -1,0 +1,4 @@
+apiVersion: v1
+name: sample-app
+description: "Helm chart for Sample App"
+version: 0.1.0
