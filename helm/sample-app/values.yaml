@@ -2,13 +2,12 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/junminahn/testteste
-  tag: v0.0.2
+  tag: v0.0.4
   pullPolicy: Always
   # pullPolicy: IfNotPresent
 
-images:
-  pullSecrets:
-    - name: gh-registry-config
+imagePullSecrets:
+  - name: gh-registry-config
   
 nameOverride: webapp
 fullnameOverride: webapp
@@ -25,8 +24,8 @@ docker:
     enabled: true
     name: gh-registry-config
     registry: ghcr.io
-    username: 
-    password: 
+    username:
+    password:
 
 resources:
   limits:

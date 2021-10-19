@@ -19,6 +19,39 @@ spec:
         app.kubernetes.io/name: {{ include "..name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      initContainers:
+        - name: initdb
+          image: postgres:11.6-alpine
+          command: ["bash", "-c"]
+          args:
+            - |
+              echo starting;
+              set -euo pipefail;
+              psql -d $PGDATABASE_NAME -qtA --set ON_ERROR_STOP=1 <<EOF
+                select 'create database $PGDATABASE_NAME' where not exists (select from pg_database where datname = '$PGDATABASE_NAME');
+                create table if not exists public.active_sessions (
+                    id serial not null,
+                    keycloak_url varchar(1000),
+                    realm varchar(1000),
+                    session_count int,
+                    created_at timestamp with time zone default current_timestamp,
+                    primary key(id)
+                );
+              EOF
+          env:
+            - name: PGHOST
+              value: kc-cron-patroni
+            - name: PGPORT
+              value: "5432"
+            - name: PGUSER
+              value: postgres
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kc-cron-patroni
+                  key: password-superuser
+            - name: PGDATABASE_NAME
+              value: kccron
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -34,7 +67,7 @@ spec:
             # Passing release version is essential to trigger a new deploymnet when deploying with `helm upgrade --install` command
             - name: RELEASE_REVISION
               value: "{{ .Release.Revision }}"
-      {{- with .Values.images.pullSecrets }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
