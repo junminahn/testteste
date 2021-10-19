@@ -31,6 +31,7 @@ async function main() {
       user: PGUSER,
       password: PGPASSWORD,
       database: PGDATABASE,
+      ssl: true,
     });
 
     const realms = await kcAdminClient.realms.find({});
