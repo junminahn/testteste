@@ -4,10 +4,13 @@ const format = require('pg-format');
 const KcAdminClient = require('keycloak-admin').default;
 
 const KEYCLOAK_URL = 'https://dev.oidc.gov.bc.ca';
-const KEYCLOAK_CLIENT_ID = process.env.KEYCLOAK_CLIENT_ID || 'admin-cli';
+const KEYCLOAK_CLIENT_ID = process.env.KEYCLOAK_CLIENT_ID || 'script-cli';
 const KEYCLOAK_CLIENT_SECRET = process.env.KEYCLOAK_CLIENT_SECRET;
-const KEYCLOAK_USERNAME = process.env.KEYCLOAK_USERNAME;
-const KEYCLOAK_PASSWORD = process.env.KEYCLOAK_PASSWORD;
+const PGHOST = process.env.PGHOST;
+const PGPORT = process.env.PGPORT || '5432';
+const PGUSER = process.env.PGUSER;
+const PGPASSWORD = process.env.PGPASSWORD;
+const PGDATABASE = process.env.PGDATABASE;
 
 const kcAdminClient = new KcAdminClient({
   baseUrl: `${KEYCLOAK_URL}/auth`,
@@ -17,18 +20,17 @@ const kcAdminClient = new KcAdminClient({
 async function main() {
   try {
     await kcAdminClient.auth({
-      grantType: KEYCLOAK_CLIENT_SECRET ? 'client_credentials' : 'password',
+      grantType: 'client_credentials',
       clientId: KEYCLOAK_CLIENT_ID,
       clientSecret: KEYCLOAK_CLIENT_SECRET,
-      username: KEYCLOAK_USERNAME,
-      password: KEYCLOAK_PASSWORD,
     });
 
     const client = new Client({
       host: PGHOST,
-      port: PGPORT,
+      port: parseInt(PGPORT),
       user: PGUSER,
       password: PGPASSWORD,
+      database: PGDATABASE,
     });
 
     const realms = await kcAdminClient.realms.find({});
