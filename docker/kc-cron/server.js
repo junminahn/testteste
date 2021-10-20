@@ -29,6 +29,7 @@ const getDatabaseUrl = () => {
 
   databaseURL += '/';
   databaseURL += PGDATABASE || 'kccron';
+  databaseURL += '?sslmode=require';
 
   return databaseURL;
 };
