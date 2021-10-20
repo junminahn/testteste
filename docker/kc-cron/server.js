@@ -49,20 +49,19 @@ async function main() {
 
     // see https://node-postgres.com/api/client#new-clientconfig-object
     const connectionString = getDatabaseUrl();
-    console.log(connectionString);
     const client = new Client({
       connectionString,
-      ssl: { rejectUnauthorized: false }
+      ssl: { rejectUnauthorized: false },
     });
 
-    // const client = new Client({
-    //   host: PGHOST,
-    //   port: parseInt(PGPORT),
-    //   user: PGUSER,
-    //   password: PGPASSWORD,
-    //   database: PGDATABASE,
-    //   ssl: true,
-    // });
+    const client = new Client({
+      host: PGHOST,
+      port: parseInt(PGPORT),
+      user: PGUSER,
+      password: PGPASSWORD,
+      database: PGDATABASE,
+      ssl: { rejectUnauthorized: false },
+    });
 
     const realms = await kcAdminClient.realms.find({});
     const dataset = await Promise.all(
