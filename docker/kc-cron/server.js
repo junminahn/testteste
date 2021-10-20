@@ -29,7 +29,7 @@ const getDatabaseUrl = () => {
 
   databaseURL += '/';
   databaseURL += PGDATABASE || 'kccron';
-  databaseURL += '?sslmode=require';
+  // databaseURL += '?sslmode=require';
 
   return databaseURL;
 };
@@ -52,7 +52,17 @@ async function main() {
     console.log(connectionString);
     const client = new Client({
       connectionString,
+      ssl: { rejectUnauthorized: false }
     });
+
+    // const client = new Client({
+    //   host: PGHOST,
+    //   port: parseInt(PGPORT),
+    //   user: PGUSER,
+    //   password: PGPASSWORD,
+    //   database: PGDATABASE,
+    //   ssl: true,
+    // });
 
     const realms = await kcAdminClient.realms.find({});
     const dataset = await Promise.all(
