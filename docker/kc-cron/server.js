@@ -48,11 +48,11 @@ async function main() {
     });
 
     // see https://node-postgres.com/api/client#new-clientconfig-object
-    const connectionString = getDatabaseUrl();
-    const client = new Client({
-      connectionString,
-      ssl: { rejectUnauthorized: false },
-    });
+    // const connectionString = getDatabaseUrl();
+    // const client = new Client({
+    //   connectionString,
+    //   ssl: { rejectUnauthorized: false },
+    // });
 
     const client = new Client({
       host: PGHOST,
