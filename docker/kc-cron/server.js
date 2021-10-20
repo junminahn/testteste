@@ -46,8 +46,11 @@ async function main() {
       clientSecret: KEYCLOAK_CLIENT_SECRET,
     });
 
+    // see https://node-postgres.com/api/client#new-clientconfig-object
+    const connectionString = getDatabaseUrl();
+    console.log(connectionString);
     const client = new Client({
-      connectionString: getDatabaseUrl(),
+      connectionString,
     });
 
     const realms = await kcAdminClient.realms.find({});
