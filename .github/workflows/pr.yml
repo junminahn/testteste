@@ -1,15 +1,9 @@
 name: "PR CI Test"
 on:
-  pull_request:
-    types: [opened, edited, labeled]
+  pull_request
 
 jobs:
-  test:
-    runs-on: ubuntu-18.04
+  build:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v4
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const output = JSON.stringify(${{ github.event }}, null, 2);
-            console.log(output);
+    - uses: hmarr/debug-action@v2
