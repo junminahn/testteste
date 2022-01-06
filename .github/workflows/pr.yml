@@ -11,5 +11,5 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const output = ${{ github.event }}
+            const output = JSON.stringify(${{ github.event }}, null, 2);
             console.log(output);
