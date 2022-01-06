@@ -12,28 +12,6 @@ const PGUSER = process.env.PGUSER;
 const PGPASSWORD = process.env.PGPASSWORD;
 const PGDATABASE = process.env.PGDATABASE;
 
-const getDatabaseUrl = () => {
-  let databaseURL = 'postgres://';
-
-  databaseURL += PGUSER;
-  if (PGPASSWORD) {
-    databaseURL += `:${PGPASSWORD}`;
-  }
-
-  databaseURL += '@';
-
-  databaseURL += PGHOST || 'localhost';
-  if (PGPORT) {
-    databaseURL += `:${PGPORT}`;
-  }
-
-  databaseURL += '/';
-  databaseURL += PGDATABASE || 'kccron';
-  // databaseURL += '?sslmode=require';
-
-  return databaseURL;
-};
-
 const kcAdminClient = new KcAdminClient({
   baseUrl: `${KEYCLOAK_URL}/auth`,
   realmName: 'master',
@@ -48,12 +26,6 @@ async function main() {
     });
 
     // see https://node-postgres.com/api/client#new-clientconfig-object
-    // const connectionString = getDatabaseUrl();
-    // const client = new Client({
-    //   connectionString,
-    //   ssl: { rejectUnauthorized: false },
-    // });
-
     const client = new Client({
       host: PGHOST,
       port: parseInt(PGPORT),

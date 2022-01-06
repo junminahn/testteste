@@ -1,0 +1,17 @@
+name: "PR Test"
+
+on:
+  pull_request:
+    types: [opened, edited, labeled]
+
+jobs:
+  test:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Test
+      - uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = ${{ github.event }}
+            console.log(output);
