@@ -21,3 +21,4 @@ jobs:
       id: pr2
       run: |
         echo ${{ steps.pr.outputs }}
+        echo ${{ steps.pr.outputs.pr }}
