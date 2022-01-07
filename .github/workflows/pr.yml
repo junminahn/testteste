@@ -19,6 +19,6 @@ jobs:
 
     - name: Get PR2
       id: pr2
+      if: contains(steps.pr.outputs.pr.labels.*.name, 'documentation')
       run: |
-        echo ${{ steps.pr.outputs }}
         echo ${{ steps.pr.outputs.pr }}
