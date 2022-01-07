@@ -20,4 +20,4 @@ jobs:
     - name: Get PR2
       id: pr2
       run: |
-        echo ${{ fromJSON(steps.pr.outputs) }}
+        echo ${{ steps.pr.outputs }}
