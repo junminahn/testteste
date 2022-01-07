@@ -14,7 +14,8 @@ jobs:
       id: pr
       run: |
         pr=$(curl -H "Accept: application/vnd.github.groot-preview+json" ${{github.event.pull_request._links.issue.href}})
-        echo "::set-output name=pr::$pr"
+        echo $pr
+        echo "::set-output name=pr::toJSON($pr)"
 
     - name: Get PR2
       id: pr2
