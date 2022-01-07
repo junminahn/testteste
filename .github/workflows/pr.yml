@@ -8,14 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: hmarr/debug-action@v2
-      if: contains(github.event.pull_request.labels.*.name, 'bug')
 
     - name: Get PR
       id: pr
       run: |
         pr=$(curl -H "Accept: application/vnd.github.groot-preview+json" ${{github.event.pull_request._links.issue.href}})
-        echo $pr
-        echo "::set-output name=pr::$pr"
+        aaa=$(jq -c '.' <<< "$pr")
+        echo $aaa
+        echo "::set-output name=pr::$aaa"
 
     - name: Get PR2
       id: pr2
