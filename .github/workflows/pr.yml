@@ -23,6 +23,6 @@ jobs:
         echo ${{ fromJSON(steps.pr.outputs.pr) }}
 
     - name: Get PR3
-      if: contains(steps.pr.outputs.pr.labels.*.name, 'documentation')
+      if: contains(fromJSON(steps.pr.outputs.pr).labels.*.name, 'documentation')
       run: |
         echo step3
