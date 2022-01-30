@@ -1,0 +1,26 @@
+name: Create and publish a Docker image
+
+on:
+  push
+
+jobs:
+  test-minify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Test minify
+        run: |
+          cat minify-test/test.js
+          cat minify-test/test.css
+
+      - name: Test minify
+        uses: junminahn/minify@v0.1.0
+        with:
+          directory: minify-test
+
+      - name: Test minify2
+        run: |
+          cat minify-test/test.js
+          cat minify-test/test.css
