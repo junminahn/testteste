@@ -10,7 +10,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Fetch json
+      - name: Fetch json1
         id: items
         uses: fjogeleit/http-request-action@master
         with:
@@ -18,7 +18,30 @@ jobs:
           method: "GET"
         continue-on-error: true
 
-      - name: Show Response
+      - name: Show Response1
+        id: res1
         run: |
-          number=$(jq length <<< ${{ steps.items.outputs.response }})
-          echo "$number"
+          count=$(jq length <<< ${{ steps.items.outputs.response }})
+          echo "::set-output name=count::$count"
+
+      - name: Run if has more than zero
+        if: steps.res1.outputs.count != '0'
+        run: echo ${{ steps.res1.outputs.count }}
+
+      - name: Fetch json2
+        id: empty
+        uses: fjogeleit/http-request-action@master
+        with:
+          url: "https://raw.githubusercontent.com/junminahn/testteste/main/static/empty-ids.json"
+          method: "GET"
+        continue-on-error: true
+
+      - name: Show Response2
+        id: res2
+        run: |
+          count=$(jq length <<< ${{ steps.empty.outputs.response }})
+          echo "::set-output name=count::$count"
+
+      - name: Run if has more than zero
+        if: steps.res2.outputs.count != '0'
+        run: echo ${{ steps.res2.outputs.count }}
