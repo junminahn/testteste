@@ -1,0 +1,23 @@
+name: Do things every 1 minute
+
+on:
+  schedule:
+    - cron: "*/1 * * * *"
+
+jobs:
+  terraform:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Fetch json
+        id: items
+        uses: fjogeleit/http-request-action@master
+        with:
+          url: ""
+          method: "GET"
+        continue-on-error: true
+
+      - name: Show Response
+        run: echo ${{ steps.items.outputs.response }}
