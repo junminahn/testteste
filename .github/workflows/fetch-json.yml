@@ -15,7 +15,7 @@ jobs:
         id: items
         uses: fjogeleit/http-request-action@master
         with:
-          url: ""
+          url: "https://raw.githubusercontent.com/junminahn/testteste/main/static/sample-ids.json"
           method: "GET"
         continue-on-error: true
 
