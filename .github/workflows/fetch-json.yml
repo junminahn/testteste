@@ -1,4 +1,4 @@
-name: Do things every 1 minute
+name: Fetch Json
 
 on:
   workflow_dispatch
@@ -19,4 +19,6 @@ jobs:
         continue-on-error: true
 
       - name: Show Response
-        run: echo ${{ steps.items.outputs.response }}
+        run: |
+          number=$(jq length <<< ${{ steps.items.outputs.response }})
+          echo "$number"
