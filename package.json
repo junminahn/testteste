@@ -1,6 +1,10 @@
 {
   "name": "testteste",
+<<<<<<< HEAD
   "version": "1.0.1",
+=======
+  "version": "0.0.0",
+>>>>>>> test
   "description": "",
   "main": "github-script.js",
   "scripts": {
