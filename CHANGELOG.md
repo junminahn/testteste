@@ -8,6 +8,13 @@ project adheres to [Semantic Versioning](http://semver.org/).
 <a name="unreleased"></a>
 ## [Unreleased]
 
+- Update changelog
+
+
+<a name="1.0.3"></a>
+## [1.0.3] - 2022-03-23
+CI:
+- Version bump to 1.0.3
 
 
 <a name="1.0.2"></a>
@@ -55,7 +62,8 @@ CI:
 
 
 
-[Unreleased]: https://github.com/bcgov/sso-terraform-keycloak-client/compare/1.0.2...HEAD
+[Unreleased]: https://github.com/bcgov/sso-terraform-keycloak-client/compare/1.0.3...HEAD
+[1.0.3]: https://github.com/bcgov/sso-terraform-keycloak-client/compare/1.0.2...1.0.3
 [1.0.2]: https://github.com/bcgov/sso-terraform-keycloak-client/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/bcgov/sso-terraform-keycloak-client/compare/v0.1.0...1.0.1
 [v0.1.0]: https://github.com/bcgov/sso-terraform-keycloak-client/compare/v0.0.4...v0.1.0

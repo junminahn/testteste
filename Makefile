@@ -1,8 +1,6 @@
-.PHONY: changelog-unrelease
+.PHONY: changelog-latest
 
 CHANGELOG_FILE=CHANGELOG.md
 
-scope ?= "minor"
-
-changelog-unrelease:
-	git-chglog --no-case -o $(CHANGELOG_FILE)
+changelog-latest:
+	git-chglog $(git describe --tags $(git rev-list --tags --max-count=1)) --no-case -o $(CHANGELOG_FILE)
