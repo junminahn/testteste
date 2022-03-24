@@ -78,3 +78,5 @@ terraform.rc
 node_modules
 
 *.secret.yaml
+
+note.md
