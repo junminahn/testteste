@@ -21,7 +21,7 @@ jobs:
         with:
           path: /home/runner/.asdf
           key: ${{ runner.os }}-${{ hashFiles('**/.tool-versions') }}
-      - name: Install required tools
+      - name: Install tools
         run: |
           while IFS= read -r line; do
               tool=$(echo $line | cut -f 1 -d ' ')
@@ -43,13 +43,13 @@ jobs:
         run: echo "${{ steps.prLabels.outputs.result }}"
 
       - name: Version Bump
-        if: ${{ !contains(steps.prLabels.outputs.result, 'release_candidate') }}
+        if: steps.prLabels.outputs.result = 'false'
         run: |
           make changelog_next
           make bump_next_version
 
       - name: Create Pull Request
-        if: ${{ !contains(steps.prLabels.outputs.result, 'release_candidate') }}
+        if: steps.prLabels.outputs.result = 'false'
         id: cpr
         uses: peter-evans/create-pull-request@v4
         with:
@@ -70,10 +70,10 @@ jobs:
             maintainers
           draft: false
 
-
-      # - name: Version Bump
-      #   run: |
-      #     make release
+      - name: Version Bump
+        if: steps.prLabels.outputs.result = 'true'
+        run: |
+          make release
       # - name: Automated Version Bump
       #   uses: phips28/gh-action-bump-version@master
       #   env:
