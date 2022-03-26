@@ -43,13 +43,13 @@ jobs:
         run: echo "${{ steps.prLabels.outputs.result }}"
 
       - name: Version Bump
-        if: steps.prLabels.outputs.result = 'false'
+        if: steps.prLabels.outputs.result == 'false'
         run: |
           make changelog_next
           make bump_next_version
 
       - name: Create Pull Request
-        if: steps.prLabels.outputs.result = 'false'
+        if: steps.prLabels.outputs.result == 'false'
         id: cpr
         uses: peter-evans/create-pull-request@v4
         with:
@@ -71,7 +71,7 @@ jobs:
           draft: false
 
       - name: Version Bump
-        if: steps.prLabels.outputs.result = 'true'
+        if: steps.prLabels.outputs.result == 'true'
         run: |
           make release
       # - name: Automated Version Bump
