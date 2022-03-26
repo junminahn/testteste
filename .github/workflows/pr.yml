@@ -1,17 +1,28 @@
 name: "PR CI Test"
 
 on:
-  pull_request:
-    types: [opened, edited, labeled]
+  pull_request
 
 jobs:
-  test:
-    runs-on: ubuntu-18.04
+  build:
+    runs-on: ubuntu-latest
     steps:
-      - name: Test
-      - uses: actions/github-script@v4
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const output = ${{ github.event }}
-            console.log(output);
+    - uses: hmarr/debug-action@v2
+
+    - name: Get PR
+      id: pr
+      run: |
+        pr=$(curl -H "Accept: application/vnd.github.groot-preview+json" ${{github.event.pull_request._links.issue.href}})
+        aaa=$(jq -c '.' <<< "$pr")
+        echo $aaa
+        echo "::set-output name=pr::$aaa"
+
+    - name: Get PR2
+      id: pr2
+      run: |
+        echo ${{ fromJSON(steps.pr.outputs.pr) }}
+
+    - name: Get PR3
+      if: contains(fromJSON(steps.pr.outputs.pr).labels.*.name, 'documentation')
+      run: |
+        echo step3
