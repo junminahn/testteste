@@ -9,11 +9,52 @@ jobs:
   build:
     runs-on: ubuntu-18.04
     steps:
+      - uses: hmarr/debug-action@v2
       - uses: actions/checkout@v2
+
+      - name: Install asdf
+        uses: asdf-vm/actions/setup@v1
+      - name: Cache tools
+        uses: actions/cache@v2
+        with:
+          path: /home/runner/.asdf
+          key: ${{ runner.os }}-${{ hashFiles('**/.tool-versions') }}
+      - name: Install required tools
+        run: |
+          sed -nr '/git-chglog|semtag/p' .tool-versions | cut -f 1 -d ' ' | xargs -n 1 asdf plugin-add || true
+          asdf plugin-update --all
+          asdf install
+          asdf reshim
+
       - name: Version Bump
         run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+          make changelog_next
+          make bump_next_version
+
+      # - name: Create Pull Request
+      #   id: cpr
+      #   uses: peter-evans/create-pull-request@v4
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     signoff: false
+      #     branch: chore/release
+      #     base: main
+      #     delete-branch: true
+      #     title: "chore: bump version and update changelog"
+      #     commit-message: "chore: bump version and update changelog"
+      #     body: |
+      #       - bump package version
+      #       - update changelog
+      #     labels: |
+      #       release_candidate
+      #     team-reviewers: |
+      #       owners
+      #       maintainers
+      #     draft: false
+
+      # - name: Version Bump
+      #   run: |
+      #     make release
       # - name: Automated Version Bump
       #   uses: phips28/gh-action-bump-version@master
       #   env:
