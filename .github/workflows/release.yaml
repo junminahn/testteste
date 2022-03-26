@@ -70,10 +70,17 @@ jobs:
             maintainers
           draft: false
 
-      - name: Version Bump
+      - name: Push tag
         if: steps.prLabels.outputs.result == 'true'
         run: |
           make release
+
+      - name: Get Version
+        id: lastver
+        if: steps.prLabels.outputs.result == 'true'
+        run: |
+          lastver=$(semtag getlast)
+          echo "::set-output name=value::$lastver"
 
       - name: Release Tag
         if: steps.prLabels.outputs.result == 'true'
@@ -83,5 +90,5 @@ jobs:
             github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              tag_name: '${{ steps.nextver.outputs.value }}'
+              tag_name: '${{ steps.lastver.outputs.value }}'
             })
