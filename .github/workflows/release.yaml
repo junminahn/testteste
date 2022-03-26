@@ -76,6 +76,7 @@ jobs:
           make release
 
       - name: Release Tag
+        if: steps.prLabels.outputs.result == 'true'
         uses: actions/github-script@v6
         with:
           script: |
