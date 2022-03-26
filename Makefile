@@ -1,23 +1,23 @@
-.PHONY: changelog-unrelease changelog changelog-latest release
+.PHONY: getnext changelog-unrelease changelog changelog-latest release
 
 SEMTAG=semtag
 
 CHANGELOG_FILE = CHANGELOG.md
 
 scope ?= "minor"
+nextver = `$(SEMTAG) final -s $(scope) -o -f`
 
 changelog_unrelease:
-	git-chglog --no-case -o $(CHANGELOG_FILE)
+	@git-chglog --no-case -o $(CHANGELOG_FILE)
 
 changelog_next:
-	git-chglog --no-case -o $(CHANGELOG_FILE) --next-tag `$(SEMTAG) final -s $(scope) -o -f`
+	@git-chglog --no-case -o $(CHANGELOG_FILE) --next-tag $(nextver)
 
 changelog_latest:
-	git-chglog --no-case -o $(CHANGELOG_FILE) `$(SEMTAG) getlast`
+	@git-chglog --no-case -o $(CHANGELOG_FILE) `$(SEMTAG) getlast`
 
 release:
-	$(SEMTAG) final -s $(scope)
+	@$(SEMTAG) final -s $(scope)
 
 bump_next_version:
-	npm version `$(SEMTAG) final -s $(scope) -o -f` --no-git-tag-version --allow-same-version
-
+	@npm version $(nextver) --no-git-tag-version --allow-same-version

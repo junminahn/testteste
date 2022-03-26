@@ -1,4 +1,4 @@
-name: Bump Package Version
+name: Release Workflow
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-18.04
     steps:
       - uses: hmarr/debug-action@v2
@@ -43,10 +43,13 @@ jobs:
         run: echo "${{ steps.prLabels.outputs.result }}"
 
       - name: Version Bump
+        id: nextver
         if: steps.prLabels.outputs.result == 'false'
         run: |
           make changelog_next
           make bump_next_version
+          nextver=$(make bump_next_version)
+          echo "::set-output name=value::$nextver"
 
       - name: Create Pull Request
         if: steps.prLabels.outputs.result == 'false'
@@ -58,8 +61,8 @@ jobs:
           branch: chore/release
           base: main
           delete-branch: true
-          title: "chore: bump version and update changelog"
-          commit-message: "chore: bump version and update changelog"
+          title: "chore(${{ steps.nextver.outputs.value }}): bump version and update changelog"
+          commit-message: "chore(${{ steps.nextver.outputs.value }}): bump version and update changelog"
           body: |
             - bump package version
             - update changelog
@@ -74,7 +77,9 @@ jobs:
         if: steps.prLabels.outputs.result == 'true'
         run: |
           make release
-      # - name: Automated Version Bump
-      #   uses: phips28/gh-action-bump-version@master
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: ${{ steps.nextver.outputs.value }}
+          prerelease: false
