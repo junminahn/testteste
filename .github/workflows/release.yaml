@@ -90,5 +90,6 @@ jobs:
             github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              tag_name: '${{ steps.lastver.outputs.value }}'
+              tag_name: '${{ steps.lastver.outputs.value }}',
+              name: '${{ steps.lastver.outputs.value }}',
             })
