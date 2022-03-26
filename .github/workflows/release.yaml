@@ -39,10 +39,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           labels: '["release_candidate"]'
 
-      - name: See result
-        run: echo "${{ steps.prLabels.outputs.result }}"
-
-      - name: Version Bump
+      - name: Update changelog
         id: nextver
         if: steps.prLabels.outputs.result == 'false'
         run: |
@@ -64,7 +61,7 @@ jobs:
           title: "chore(${{ steps.nextver.outputs.value }}): bump version and update changelog"
           commit-message: "chore(${{ steps.nextver.outputs.value }}): bump version and update changelog"
           body: |
-            - bump package version
+            - bump package version (${{ steps.nextver.outputs.value }})
             - update changelog
           labels: |
             release_candidate
@@ -78,8 +75,12 @@ jobs:
         run: |
           make release
 
-      - uses: marvinpinto/action-automatic-releases@latest
+      - name: Release Tag
+        uses: actions/github-script@v6
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: ${{ steps.nextver.outputs.value }}
-          prerelease: false
+          script: |
+            github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: ${{ steps.nextver.outputs.value }}
+            })
