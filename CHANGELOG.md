@@ -10,9 +10,15 @@ project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+<a name="v1.12.0"></a>
+## [v1.12.0] - 2022-03-26
+
+
+
 <a name="v1.11.0"></a>
 ## [v1.11.0] - 2022-03-26
 
+- Bump version and update changelog
 
 
 <a name="v1.10.0"></a>
@@ -130,7 +136,8 @@ CI:
 
 
 
-[Unreleased]: https://github.com/junminahn/testteste/compare/v1.11.0...HEAD
+[Unreleased]: https://github.com/junminahn/testteste/compare/v1.12.0...HEAD
+[v1.12.0]: https://github.com/junminahn/testteste/compare/v1.11.0...v1.12.0
 [v1.11.0]: https://github.com/junminahn/testteste/compare/v1.10.0...v1.11.0
 [v1.10.0]: https://github.com/junminahn/testteste/compare/v1.9.0...v1.10.0
 [v1.9.0]: https://github.com/junminahn/testteste/compare/v1.8.0...v1.9.0
