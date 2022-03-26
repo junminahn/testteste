@@ -32,31 +32,43 @@ jobs:
           done <<< $(sed -nr '/git-chglog|semtag/p' .tool-versions)
           asdf reshim
 
+      - name: Check PR labels
+        id: prLabels
+        uses: shioyang/check-pr-labels-on-push-action@v1.0.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          labels: '["release_candidate"]'
+
+      - name: See result
+        run: echo "${{ steps.prLabels.outputs.result }}"
+
       - name: Version Bump
+        if: ${{ !contains(steps.prLabels.outputs.result, 'release_candidate') }}
         run: |
           make changelog_next
           make bump_next_version
 
-      # - name: Create Pull Request
-      #   id: cpr
-      #   uses: peter-evans/create-pull-request@v4
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     signoff: false
-      #     branch: chore/release
-      #     base: main
-      #     delete-branch: true
-      #     title: "chore: bump version and update changelog"
-      #     commit-message: "chore: bump version and update changelog"
-      #     body: |
-      #       - bump package version
-      #       - update changelog
-      #     labels: |
-      #       release_candidate
-      #     team-reviewers: |
-      #       owners
-      #       maintainers
-      #     draft: false
+      - name: Create Pull Request
+        if: ${{ !contains(steps.prLabels.outputs.result, 'release_candidate') }}
+        id: cpr
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          signoff: false
+          branch: chore/release
+          base: main
+          delete-branch: true
+          title: "chore: bump version and update changelog"
+          commit-message: "chore: bump version and update changelog"
+          body: |
+            - bump package version
+            - update changelog
+          labels: |
+            release_candidate
+          team-reviewers: |
+            owners
+            maintainers
+          draft: false
 
 
       # - name: Version Bump
