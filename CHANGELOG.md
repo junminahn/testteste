@@ -10,6 +10,16 @@ project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+<a name="v1.5.0"></a>
+## [v1.5.0] - 2022-03-26
+
+
+
+<a name="v1.4.0"></a>
+## [v1.4.0] - 2022-03-26
+
+
+
 <a name="v1.3.0"></a>
 ## [v1.3.0] - 2022-03-26
 
@@ -85,7 +95,9 @@ CI:
 
 
 
-[Unreleased]: https://github.com/junminahn/testteste/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/junminahn/testteste/compare/v1.5.0...HEAD
+[v1.5.0]: https://github.com/junminahn/testteste/compare/v1.4.0...v1.5.0
+[v1.4.0]: https://github.com/junminahn/testteste/compare/v1.3.0...v1.4.0
 [v1.3.0]: https://github.com/junminahn/testteste/compare/v1.2.0...v1.3.0
 [v1.2.0]: https://github.com/junminahn/testteste/compare/v1.1.1...v1.2.0
 [v1.1.1]: https://github.com/junminahn/testteste/compare/1.0.4...v1.1.1
