@@ -86,6 +86,7 @@ jobs:
         if: steps.prLabels.outputs.result == 'true'
         uses: actions/github-script@v6
         with:
+          github-token: ${{ secrets.GH_SECRET }}
           script: |
             github.rest.repos.createRelease({
               owner: context.repo.owner,
