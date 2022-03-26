@@ -19,5 +19,5 @@ release:
 	$(SEMTAG) final -s $(scope)
 
 bump_latest:
-	npm version `$(SEMTAG) getlast`
+	npm version `$(SEMTAG) final -s $(scope) -o -f` --force
 
