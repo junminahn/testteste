@@ -13,6 +13,7 @@ project adheres to [Semantic Versioning](http://semver.org/).
 <a name="v1.6.0"></a>
 ## [v1.6.0] - 2022-03-26
 
+- Bump version and update changelog
 
 
 <a name="v1.5.0"></a>
