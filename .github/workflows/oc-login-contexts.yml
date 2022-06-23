@@ -24,6 +24,8 @@ jobs:
       - name: check oc contexts
         run: |
           kubectl config get-contexts
-          kubectl config get-contexts --no-headers -o name | grep api-gold-devops-gov-bc-ca | head -n 1
-          kubectl config get-contexts --no-headers -o name | grep api-golddr-devops-gov-bc-ca | head -n 1
+          a=$(kubectl config get-contexts --no-headers -o name | grep api-gold-devops-gov-bc-ca | head -n 1)
+          b=$(kubectl config get-contexts --no-headers -o name | grep api-golddr-devops-gov-bc-ca | head -n 1)
+          kubectl config set-context "$a"
+          kubectl config set-context "$b"
   
