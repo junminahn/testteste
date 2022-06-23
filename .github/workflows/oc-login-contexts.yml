@@ -1,0 +1,27 @@
+name: Test OC contexts
+
+on: workflow_dispatch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: login1
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.OCP_SERVER_URL_1 }}
+          openshift_token: ${{ secrets.OCP_SERVER_1_TOKEN }}
+          namespace: ${{ secrets.OCP_NAMESPACE }}
+          insecure_skip_tls_verify: true
+      - name: login2
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.OCP_SERVER_URL_2 }}
+          openshift_token: ${{ secrets.OCP_SERVER_2_TOKEN }}
+          namespace: ${{ secrets.OCP_NAMESPACE }}
+          insecure_skip_tls_verify: true
+      - name: check oc contexts
+        run: |
+          kubectl config get-contexts
+  
