@@ -26,6 +26,6 @@ jobs:
           kubectl config get-contexts
           a=$(kubectl config get-contexts --no-headers -o name | grep api-gold-devops-gov-bc-ca | head -n 1)
           b=$(kubectl config get-contexts --no-headers -o name | grep api-golddr-devops-gov-bc-ca | head -n 1)
-          kubectl config set-context "$a"
-          kubectl config set-context "$b"
+          kubectl config use-context "$a"
+          kubectl config use-context "$b"
   
