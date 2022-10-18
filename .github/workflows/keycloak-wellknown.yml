@@ -22,7 +22,7 @@ jobs:
       id: fetch2
       uses: fjogeleit/http-request-action@v1
       with:
-        url: ${{ fromJson(steps.fetch.outputs.response).jwks_uri
+        url: fromJson(steps.fetch.outputs.response).jwks_uri
         method: 'GET'
     - name: Show Response
       run: |
