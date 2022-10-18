@@ -1,0 +1,34 @@
+name: Keycloak Well-Known
+description: "Fetch Keycloak OIDC configuration"
+
+runs:
+  using: composite
+  steps:
+    - name: Fetch Well-Known
+      id: fetch
+      uses: fjogeleit/http-request-action@v1
+      with:
+        url: "https://dev.loginproxy.gov.bc.ca/auth/realms/standard/.well-known/openid-configuration"
+        method: "GET"
+
+    - name: Show Response
+      run: |
+        echo ${{ steps.fetch.outputs.response }}
+        echo ${{ steps.fetch.outputs.headers }}
+        echo ${{ fromJson(steps.fetch.outputs.response).jwks_uri }}
+      shell: bash
+
+    - name: Fetch JWKS
+      id: fetch2
+      uses: fjogeleit/http-request-action@v1
+      with:
+        url: ${{ fromJson(steps.fetch.outputs.response).jwks_uri }}
+        method: "GET"
+
+    - name: Show Response
+      run: |
+        issuer=${{ fromJson(steps.fetch.outputs.response).issuer }}
+        jwks=${{ toJSON(steps.fetch2.outputs.response) }}
+        TEST=$(jq -c --null-input --arg issuer "$issuer" --argjson jwks "$jwks"  '{"issuer": $issuer, "jwks": $jwks}')
+        echo "$TEST"
+      shell: bash
