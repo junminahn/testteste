@@ -9,4 +9,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: wellknown
+        id: wellknown
         uses: ./.github/actions/wellknown
+        with:
+          discovery-url: https://dev.loginproxy.gov.bc.ca/auth/realms/standard/.well-known/openid-configuration
+
+      - run: |
+          echo {{ steps.wellknown.outputs.JSON }}
