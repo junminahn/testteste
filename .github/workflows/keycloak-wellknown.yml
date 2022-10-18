@@ -15,5 +15,8 @@ jobs:
           discovery-url: https://dev.loginproxy.gov.bc.ca/auth/realms/standard/.well-known/openid-configuration
         continue-on-error: true
 
-      - run: |
-          echo ${{ steps.wellknown.outputs.config }}
+      - name: testtest
+        run: |
+          cat >"ci.auto.tfvars" <<EOF
+          app_url="${{ steps.wellknown.outputs.config }}"
+          EOF
