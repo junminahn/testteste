@@ -18,6 +18,6 @@ jobs:
         run: |
           cat >"ci.auto.tfvars" <<EOF
           secret1="${{ secrets.GITHUB_TOKEN }}"
-          config="${{ steps.wellknown.outputs.config }}"
+          config=${{ toJSON(steps.wellknown.outputs.config) }}
           secret2="${{ secrets.GITHUB_TOKEN }}"
           EOF
