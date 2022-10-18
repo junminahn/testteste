@@ -27,7 +27,7 @@ jobs:
     - name: Show Response
       run: |
         issuer=${{ fromJson(steps.fetch.outputs.response).issuer }}
-        AA=${{ toJSON(steps.fetch2.outputs.response) }}
-        TEST=$(jq --null-input --arg issuer "$issuer" --argjson jwks "$AA"  '{"issuer": $issuer, "jwks": $jwks}')
+        jwks=${{ toJSON(steps.fetch2.outputs.response) }}
+        TEST=$(jq -c --null-input --arg issuer "$issuer" --argjson jwks "$jwks"  '{"issuer": $issuer, "jwks": $jwks}')
         echo "$TEST"
 
