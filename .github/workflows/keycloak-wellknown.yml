@@ -27,4 +27,4 @@ jobs:
     - name: Show Response
       run: |
         echo ${{ steps.fetch2.outputs.response }}
-        echo ${{ toJSON(steps.fetch2.outputs.response) }}
+        echo ${{ toJSON('{"name":"myname", "password":steps.fetch2.outputs.response}') }}
