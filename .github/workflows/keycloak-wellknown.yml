@@ -18,3 +18,12 @@ jobs:
         echo ${{ steps.fetch.outputs.response }}
         echo ${{ steps.fetch.outputs.headers }}
         echo ${{ fromJson(steps.fetch.outputs.response).jwks_uri }}
+    - name: Fetch JWKS
+      id: fetch
+      uses: fjogeleit/http-request-action@v1
+      with:
+        url: ${{ fromJson(steps.fetch.outputs.response).jwks_uri
+        method: 'GET'
+    - name: Show Response
+      run: |
+        echo ${{ steps.fetch.outputs.response }}
