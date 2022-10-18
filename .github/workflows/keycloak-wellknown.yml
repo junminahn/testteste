@@ -26,6 +26,7 @@ jobs:
         method: 'GET'
     - name: Show Response
       run: |
-        AA="aa"
+        AA=${{ steps.fetch2.outputs.response }}
         TEST=$(jq --null-input --arg name "myname" --arg password "$AA"  '{"name": $name, "password": $password}')
         echo "$TEST"
+
