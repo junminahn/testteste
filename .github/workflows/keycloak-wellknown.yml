@@ -12,7 +12,7 @@ jobs:
         id: wellknown
         uses: ./.github/actions/wellknown
         with:
-          discovery-url: https://dev.loginasdfproxy.gov.bc.ca/auth/realms/standard/.well-known/openid-configuratiasdfon
+          discovery-url: https://dev.loginproxy.gov.bc.ca/auth/realms/standard/.well-known/openid-configuration
         continue-on-error: true
 
       - run: |
