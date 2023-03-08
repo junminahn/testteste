@@ -24,6 +24,7 @@ runs:
         do
             echo "==============="
             path="${dir}/${arr}"
+            echo "${path}"
             if [ ! -d "${path}" ]; then
                 continue
             fi

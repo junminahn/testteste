@@ -13,6 +13,6 @@ jobs:
       - uses: ./.github/actions/array-test
         with:
           array: |
-            docker minify-test
+            docker:minify-test
             helm
             static
