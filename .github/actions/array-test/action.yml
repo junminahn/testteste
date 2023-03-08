@@ -10,7 +10,7 @@ runs:
   steps:
     - name: Debug
       run: |
-        arr=$${{ inputs.array }}
+        arr=$'${{ inputs.array }}'
         for i in "${arr[@]}"
         do
           echo "$i"
