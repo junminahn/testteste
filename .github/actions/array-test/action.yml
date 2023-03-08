@@ -1,5 +1,4 @@
-name: Keycloak Well-Known
-description: "Fetch Keycloak OIDC configuration"
+name: Array Test
 
 inputs:
   array:
@@ -11,5 +10,9 @@ runs:
   steps:
     - name: Debug
       run: |
-        echo ${{ inputs.array }}
+        arr=$${{ inputs.array }}
+        for i in "${arr[@]}"
+        do
+          echo "$i"
+        done
       shell: bash
