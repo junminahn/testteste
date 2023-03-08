@@ -3,13 +3,13 @@ name: Array Test
 on: push
 
 jobs:
-  wellknown:
+  arrayval:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/array-test
         with:
-          array: value, 3333, 23232323, 111111
+          array: value 3333 23232323 111111
       - uses: ./.github/actions/array-test
         with:
           array: |
