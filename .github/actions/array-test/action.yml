@@ -13,6 +13,8 @@ runs:
         arr=$'${{ inputs.array }}'
         for i in "${arr[@]}"
         do
+          echo "==============="
           echo "$i"
+          echo "==============="
         done
       shell: bash
