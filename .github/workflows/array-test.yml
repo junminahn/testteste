@@ -13,7 +13,7 @@ jobs:
       - uses: ./.github/actions/array-test
         with:
           array: |
-               value
+            value   
             3333   
             23232323   
-               111111
+            111111   
