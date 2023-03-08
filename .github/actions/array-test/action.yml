@@ -16,14 +16,20 @@ runs:
 
     - name: Debug
       run: |
-        arr=$'${{ inputs.array }}'
-        y=(${arr//$'\n'/ })
-        for i in "${y[@]}"
-        dir=$(pwd)
+        arraystring=$'${{ inputs.array }}'
+        array=(${arraystring//$'\n'/ })
+        dir="$(pwd)"
+
+        for arr in "${array[@]}"
         do
-          echo "==============="
-          cd "${dir}/${i}"
-          ls -al
-          echo "==============="
+            echo "==============="
+            path="${dir}/${arr}"
+            if [ ! -d "${path}" ]; then
+                continue
+            fi
+            
+            cd "${path}"
+            ls -al
+            echo "==============="
         done
       shell: bash
