@@ -1,0 +1,15 @@
+name: Keycloak Well-Known
+description: "Fetch Keycloak OIDC configuration"
+
+inputs:
+  array:
+    description: "Array value"
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Debug
+      run: |
+        echo ${{ inputs.array }}
+      shell: bash
