@@ -8,15 +8,22 @@ inputs:
 runs:
   using: composite
   steps:
+    # - uses: actions/cache@v3
+    #   with:
+    #     path: |
+    #       **/node_modules
+    #     key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
     - name: Debug
       run: |
         arr=$'${{ inputs.array }}'
         y=(${arr//$'\n'/ })
         for i in "${y[@]}"
+        dir=$(pwd)
         do
           echo "==============="
-          echo "$i"
-          echo ${#i}
+          cd "${dir}/${i}"
+          ls -al
           echo "==============="
         done
       shell: bash
