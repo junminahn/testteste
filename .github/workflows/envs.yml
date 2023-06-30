@@ -1,0 +1,32 @@
+name: Test envs feature
+
+on:
+  push:
+    branches:
+      - envs
+jobs:
+  env-dev:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    environment:
+      name: dev
+      url: https://google.com
+
+    steps:
+      - run: |
+          echo "dev"
+
+  env-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    environment:
+      name: test
+      url: https://github.com/
+
+    steps:
+      - run: |
+          echo "test"
