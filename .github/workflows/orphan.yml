@@ -1,0 +1,11 @@
+name: Test orphan
+
+on:
+  push
+
+jobs:
+  tag-changelog:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Echo
+      run: echo "test"
