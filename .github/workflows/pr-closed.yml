@@ -19,4 +19,4 @@ jobs:
 
       - name: Delete the branch
         run: |
-          git branch
+          git push origin -d ${{ github.event.pull_request.head.ref }}
