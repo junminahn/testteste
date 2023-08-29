@@ -1,0 +1,22 @@
+name: PR closed
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  pr-closed:
+    if: contains(github.event.pull_request.labels.*.name, 'changelog')
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    # permissions:
+      # contents: write
+    steps:
+      - uses: hmarr/debug-action@a701ed95a46e6f2fb0df25e1a558c16356fae35a
+      - uses: actions/checkout@96f53100ba2a5449eb71d2e6604bbcd94b9449b5
+        with:
+          fetch-depth: 0 # fetch all history for all branches and tags
+
+      - name: Delete the branch
+        run: |
+          git branch
