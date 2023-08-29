@@ -16,3 +16,5 @@ var view = {
 const result = Mustache.render(content, view);
 
 fs.writeFileSync('client.tf', result);
+
+
