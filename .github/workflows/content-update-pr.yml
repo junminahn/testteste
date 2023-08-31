@@ -39,8 +39,9 @@ jobs:
       if: steps.branch.outputs.found == 'false'
       id: content
       run: |
-        echo "test" > testfile
         git checkout -b ${{ steps.branch.outputs.branch }}
+        echo "test" > testfile
+        git add .
         git push --set-upstream origin ${{ steps.branch.outputs.branch }}
 
     - name: Create Pull Request
