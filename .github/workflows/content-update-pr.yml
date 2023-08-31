@@ -39,7 +39,7 @@ jobs:
       if: steps.branch.outputs.found == 'false'
       id: content
       run: |
-        cat "test" > testfile
+        echo "test" > testfile
         git checkout -b ${{ steps.branch.outputs.branch }}
         git push --set-upstream origin ${{ steps.branch.outputs.branch }}
 
