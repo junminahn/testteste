@@ -1,0 +1,81 @@
+name: Content Update PR
+
+on:
+  workflow_dispatch
+
+jobs:
+  content-update:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+    - uses: hmarr/debug-action@a701ed95a46e6f2fb0df25e1a558c16356fae35a
+    - uses: actions/checkout@96f53100ba2a5449eb71d2e6604bbcd94b9449b5
+      with:
+        fetch-depth: 0 # fetch all history for all branches and tags
+
+    - name: Check Branch
+      id: branch
+      run: |
+        git config user.name "$GITHUB_ACTOR"
+        git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+        git config commit.gpgsign false
+
+        branch=precommit/${{ github.sha }}
+        echo "branch=$branch" >> $GITHUB_OUTPUT
+        echo "base=$GITHUB_REF_NAME" >> $GITHUB_OUTPUT
+
+        if git ls-remote --heads origin "$branch" | grep -q "refs/heads/$branch"; then
+            echo "The checks ran on the current commit."
+            echo "found=true" >> $GITHUB_OUTPUT
+        else
+            echo "found=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Update Content
+      if: steps.branch.outputs.found == 'false'
+      id: content
+      run: |
+        cat "test" > testfile
+        git checkout -b ${{ steps.branch.outputs.branch }}
+        git push --set-upstream origin ${{ steps.branch.outputs.branch }}
+
+    - name: Create Pull Request
+      if: steps.branch.outputs.found == 'false'
+      uses: actions/github-script@6f00a0b667f9463337970371ccda9072ee86fb27
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const { repo, owner } = context.repo;
+          const q = 'is:pr%20is:open%20label:precommit%20repo:${{ github.repository }}';
+          const pulls = await github.rest.search.issuesAndPullRequests({q});
+
+          if (pulls.total_count > 0) {
+            for (let x = 0; x < pulls.items.length; x++) {
+              const item = pulls.items[x];
+              await github.rest.pulls.update({
+                owner,
+                repo,
+                pull_number: item.id,
+                state: 'closed'
+              });
+            }
+          }
+
+          const result = await github.rest.pulls.create({
+            owner,
+            repo,
+            head: '${{ steps.branch.outputs.branch }}',
+            base: '${{ steps.branch.outputs.base }}',
+            title: 'pre-commit changes'
+          });
+
+          github.rest.issues.addLabels({
+            owner,
+            repo,
+            issue_number: result.data.number,
+            labels: ['precommit', '${{ github.sha }}']
+          });
