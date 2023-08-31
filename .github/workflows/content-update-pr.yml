@@ -42,6 +42,7 @@ jobs:
         git checkout -b ${{ steps.branch.outputs.branch }}
         echo "test" > testfile
         git add .
+        git commit -m "chore: run pre-commit checks"
         git push --set-upstream origin ${{ steps.branch.outputs.branch }}
 
     - name: Create Pull Request
