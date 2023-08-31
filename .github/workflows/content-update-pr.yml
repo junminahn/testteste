@@ -55,6 +55,9 @@ jobs:
           const q = 'is:pr%20is:open%20label:precommit%20repo:${{ github.repository }}';
           const pulls = await github.rest.search.issuesAndPullRequests({q});
 
+          console.log(q);
+          console.log(pulls);
+
           if (pulls.total_count > 0) {
             for (let x = 0; x < pulls.items.length; x++) {
               const item = pulls.items[x];
