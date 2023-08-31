@@ -55,16 +55,13 @@ jobs:
           const q = 'is:pr is:open label:precommit repo:${{ github.repository }}';
           const res = await github.rest.search.issuesAndPullRequests({q});
 
-          console.log(q);
-          console.log(res);
-
           if (res.data.total_count > 0) {
             for (let x = 0; x < res.data.items.length; x++) {
               const item = res.data.items[x];
               await github.rest.pulls.update({
                 owner,
                 repo,
-                pull_number: item.id,
+                pull_number: item.number,
                 state: 'closed'
               });
             }
