@@ -1,4 +1,4 @@
-name: Content Update PR
+name: Pre-commit Checks PR
 
 on:
   workflow_dispatch
