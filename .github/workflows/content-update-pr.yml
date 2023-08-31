@@ -52,15 +52,15 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           const { repo, owner } = context.repo;
-          const q = 'is:pr%20is:open%20label:precommit%20repo:${{ github.repository }}';
-          const pulls = await github.rest.search.issuesAndPullRequests({q});
+          const q = 'is:pr is:open label:precommit repo:${{ github.repository }}';
+          const res = await github.rest.search.issuesAndPullRequests({q});
 
           console.log(q);
-          console.log(pulls);
+          console.log(res);
 
-          if (pulls.total_count > 0) {
-            for (let x = 0; x < pulls.items.length; x++) {
-              const item = pulls.items[x];
+          if (res.data.total_count > 0) {
+            for (let x = 0; x < res.data.items.length; x++) {
+              const item = res.data.items[x];
               await github.rest.pulls.update({
                 owner,
                 repo,
