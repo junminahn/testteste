@@ -18,7 +18,7 @@ jobs:
       uses: actions/cache@67b839edb68371cc5014f6cea11c9aa77238de78
       with:
         path: ${{ env.CHECK_STORE_FILE }}
-        key: ${{ runner.os }}-${{ hashFiles(env.CHECK_STORE_FILE) }}
+        key: ${{ runner.os }}-precommit-checks-${{ hashFiles(env.CHECK_STORE_FILE) }}
 
     - name: Check Sha
       id: store
