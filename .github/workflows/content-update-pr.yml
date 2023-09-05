@@ -16,8 +16,7 @@ jobs:
       uses: actions/cache@67b839edb68371cc5014f6cea11c9aa77238de78
       with:
         path: /home/runner/precommit-check-sha
-        key: ${{ runner.os }}-precommit-check-sha
-        restore-keys: ${{ runner.os }}-precommit-check-sha
+        key: ${{ runner.os }}-${{ hashFiles('/home/runner/precommit-check-sha') }}
 
     - name: Check Sha
       id: store
