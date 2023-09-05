@@ -22,7 +22,7 @@ jobs:
     - name: Check Sha
       id: store
       run: |
-        filename="filename.txt"
+        filename="/home/runner/precommit-check-sha"
 
         if [ ! -e "$filename" ]; then
             touch "$filename"
