@@ -3,6 +3,8 @@ name: Pre-commit Checks PR
 on:
   workflow_dispatch
 
+env:
+  CHECK_STORE_FILE: /home/runner/precommit-check-sha
 jobs:
   content-update:
     runs-on: ubuntu-22.04
@@ -15,13 +17,13 @@ jobs:
     - name: Cache Datastore
       uses: actions/cache@67b839edb68371cc5014f6cea11c9aa77238de78
       with:
-        path: /home/runner/precommit-check-sha
-        key: ${{ runner.os }}-${{ hashFiles('/home/runner/precommit-check-sha') }}
+        path: ${{ env.CHECK_STORE_FILE }}
+        key: ${{ runner.os }}-${{ hashFiles(env.CHECK_STORE_FILE) }}
 
     - name: Check Sha
       id: store
       run: |
-        filename="/home/runner/precommit-check-sha"
+        filename=${{ env.CHECK_STORE_FILE }}
 
         if [ ! -e "$filename" ]; then
             touch "$filename"
