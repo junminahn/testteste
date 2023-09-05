@@ -34,6 +34,7 @@ jobs:
             echo "found=true" >> $GITHUB_OUTPUT
         else
             echo "found=false" >> $GITHUB_OUTPUT
+            echo "${{ github.sha }}" >> "$filename"
         fi
 
     - uses: hmarr/debug-action@a701ed95a46e6f2fb0df25e1a558c16356fae35a
