@@ -37,8 +37,6 @@ jobs:
             echo "${{ github.sha }}" >> "$filename"
         fi
 
-        cat "$filename"
-
     - uses: hmarr/debug-action@a701ed95a46e6f2fb0df25e1a558c16356fae35a
     - uses: actions/checkout@96f53100ba2a5449eb71d2e6604bbcd94b9449b5
       with:
