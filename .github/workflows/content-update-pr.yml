@@ -108,4 +108,3 @@ jobs:
             issue_number: result.data.number,
             labels: ['precommit', '${{ github.sha }}']
           });
-
