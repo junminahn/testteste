@@ -19,6 +19,7 @@ jobs:
       with:
         path: ${{ env.CHECK_STORE_FILE }}
         key: ${{ runner.os }}-precommit-checks-${{ github.sha }}
+        restore-keys: ${{ runner.os }}-precommit-checks
 
     - name: Check Sha
       id: store
@@ -108,4 +109,3 @@ jobs:
             labels: ['precommit', '${{ github.sha }}']
           });
 
-          
