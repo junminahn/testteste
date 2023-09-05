@@ -12,6 +12,30 @@ jobs:
       pull-requests: write
 
     steps:
+    - name: Cache Datastore
+      uses: actions/cache@67b839edb68371cc5014f6cea11c9aa77238de78
+      with:
+        path: /home/runner/precommit-check-sha
+        key: ${{ runner.os }}-precommit-check-sha
+        restore-keys: ${{ runner.os }}-precommit-check-sha
+
+    - name: Check Sha
+      id: store
+      run: |
+        filename="filename.txt"
+
+        if [ ! -e "$filename" ]; then
+            touch "$filename"
+        fi
+
+        cat "$filename"
+
+        if grep -q -x "${{ github.sha }}" "$filename"; then
+            echo "found=true" >> $GITHUB_OUTPUT
+        else
+            echo "found=false" >> $GITHUB_OUTPUT
+        fi
+
     - uses: hmarr/debug-action@a701ed95a46e6f2fb0df25e1a558c16356fae35a
     - uses: actions/checkout@96f53100ba2a5449eb71d2e6604bbcd94b9449b5
       with:
