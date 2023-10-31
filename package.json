@@ -4,6 +4,7 @@
   "description": "",
   "main": "github-script.js",
   "scripts": {
+    "release": "release-it",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,6 +22,7 @@
     "execa": "^5.1.1",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
-    "mustache": "^4.2.0"
+    "mustache": "^4.2.0",
+    "release-it": "^16.2.1"
   }
 }
