@@ -1,7 +1,9 @@
 name: Keycloak Well-Known
 
-on:
-  push
+on: 
+  push:
+    branches:
+      __noop
 
 jobs:
   wellknown:

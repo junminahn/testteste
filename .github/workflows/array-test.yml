@@ -1,6 +1,9 @@
 name: Array Test
 
-on: push
+on: 
+  push:
+    branches:
+      __noop
 
 jobs:
   arrayval:

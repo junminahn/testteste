@@ -1,9 +1,9 @@
 name: Test envs feature
 
-on:
+on: 
   push:
     branches:
-      - envs
+      __noop
 jobs:
   env-dev:
     runs-on: ubuntu-latest
