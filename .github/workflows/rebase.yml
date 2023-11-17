@@ -32,4 +32,5 @@ jobs:
 
         branch=${{ inputs.base }}-1
         git checkout -b "$branch"
+        git checkout -b "$branch"
         git push --set-upstream origin "$branch"
