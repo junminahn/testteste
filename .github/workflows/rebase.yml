@@ -1,0 +1,35 @@
+name: Force Rebase
+
+on:
+  workflow_dispatch:
+    inputs:
+      base:
+        type: string
+        description: Choose a base ref 
+        required: true
+      head:
+        type: string
+        description: Choose a head ref 
+        required: true
+
+jobs:
+  rebase:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: hmarr/debug-action@a701ed95a46e6f2fb0df25e1a558c16356fae35a
+    - uses: actions/checkout@96f53100ba2a5449eb71d2e6604bbcd94b9449b5
+      with:
+        ref: ${{ inputs.base }}
+        ssh-key: ${{ secrets.SSH_KEY }}
+        fetch-depth: 0
+
+    - name: Create a tag
+      run: |
+        git config user.name "$GITHUB_ACTOR"
+        git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+        git config commit.gpgsign false
+
+        branch=${{ inputs.base }}-1
+        git checkout -b "$branch"
+        git push --set-upstream origin "$branch"
