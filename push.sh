@@ -14,6 +14,8 @@ git push -u origin example
 
 
 
+
+
 # git remote set-url origin https://junminahn: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@github.com/junminahn/test-test.git
 # git branch -M example
 # # git push --force --quiet origin master:example
