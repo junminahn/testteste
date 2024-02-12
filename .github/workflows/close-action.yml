@@ -8,7 +8,7 @@ jobs:
     timeout-minutes: 10
     steps:
     - name: Cancel Previous Runs
-      uses: styfle/cancel-workflow-action
+      uses: styfle/cancel-workflow-action@main
 
     - name: sleep
       run: |
