@@ -1,6 +1,6 @@
 {
   "name": "testteste",
-  "version": "100.0.3",
+  "version": "101.0.0",
   "description": "",
   "main": "github-script.js",
   "scripts": {
@@ -25,6 +25,6 @@
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "mustache": "^4.2.0",
-    "release-it": "^16.2.1"
+    "release-it": "17.0.0"
   }
 }
