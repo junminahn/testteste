@@ -16,7 +16,7 @@ jobs:
             mkdir -p myfolder
             echo ${{ github.sha }} > myfolder/Release.txt
             echo "release" > myfolder/Release2.txt
-            tar -czvf myfolder.tar.gz myfolder
+            tar -czvf myfolder.tar.gz -C myfolder .
 
       - name: Release
         uses: softprops/action-gh-release@69320dbe05506a9a39fc8ae11030b214ec2d1f87
