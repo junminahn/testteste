@@ -1,0 +1,16 @@
+name: Tag Environment
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+env:
+  IMAGE_TAG: "${{ github.ref_name#v }}"
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+            echo ${{ env.IMAGE_TAG }}
