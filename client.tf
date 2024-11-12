@@ -10,5 +10,6 @@ module "client_Joe" {
     "https://example33.com",
     "https://example44.com",
     "https://example55.com",
+    "https://example66.com",
   ]
 }
