@@ -1,15 +1,16 @@
 name: Close Action
 
-on: workflow_dispatch
+on: push
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   tag-changelog:
     runs-on: ubuntu-22.04
     timeout-minutes: 10
     steps:
-    - name: Cancel Previous Runs
-      uses: styfle/cancel-workflow-action@main
-
     - name: sleep
       run: |
-        sleep 120
+        sleep 123

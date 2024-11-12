@@ -1,0 +1,23 @@
+name: Tag Environment
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  set-tag:
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.set-image-tag.outputs.image_tag }}
+    steps:
+      - name: Set IMAGE_TAG
+        id: set-image-tag
+        run: echo "::set-output name=image_tag::${GITHUB_REF_NAME#v}"
+
+  build:
+    needs: set-tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Display IMAGE_TAG
+        run: echo "IMAGE_TAG is ${{ needs.set-tag.outputs.image_tag }}"
