@@ -6,5 +6,8 @@ module "client_Joe" {
   valid_redirect_uris = [
     "https://example.com",
     "https://example22.com",
+    "https://example77.com",
+    "https://example55.com",
+    "https://example66.com",
   ]
 }
